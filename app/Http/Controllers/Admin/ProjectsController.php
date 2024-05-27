@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreProjectRequest;
+use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Project;
 use App\Models\Technology;
 use App\Models\Type;
-use App\Http\Requests\StoreProjectRequest;
-use App\Http\Requests\UpdateProjectRequest;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -29,7 +29,10 @@ class ProjectsController extends Controller
     {
         $types = Type::all();
         // dd($types);
-        return view('admin.projects.create', compact('types'));
+        $technologies = Technology::all();
+        //dd($technologies);
+
+        return view('admin.projects.create', compact('types', 'technologies'));
     }
 
     /**
@@ -46,6 +49,7 @@ class ProjectsController extends Controller
         }
 
         Project::create($validated_data);
+
         return to_route('admin.projects.index')->with('message', "New project it's created!");
     }
 
@@ -56,7 +60,7 @@ class ProjectsController extends Controller
     {
         $types = Type::all();
         //dd($types);
-    
+
         return view('admin.projects.show', compact('project', 'types', 'tecnologies'));
     }
 
@@ -66,6 +70,7 @@ class ProjectsController extends Controller
     public function edit(Project $project)
     {
         $types = Type::all();
+
         //dd($types);
         return view('admin.projects.edit', compact('project', 'types'));
     }
@@ -75,7 +80,6 @@ class ProjectsController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
-
 
         $validated_data = $request->validated();
         $slug = Str::slug($request->title, '-');
@@ -88,6 +92,7 @@ class ProjectsController extends Controller
             $validated_data['image_cover'] = $img_path;
         }
         $project->update($validated_data);
+
         return to_route('admin.projects.index')->with('message', "Project $project->title updated!");
     }
 
