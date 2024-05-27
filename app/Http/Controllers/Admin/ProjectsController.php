@@ -31,10 +31,8 @@ class ProjectsController extends Controller
         // dd($types);
         $technologies = Technology::all();
         //dd($technologies);
-        $selectedValue = $technologies->pluck('id')->toArray();
-        dd($selectedValue);
 
-        return view('admin.projects.create', compact('types', 'technologies', 'selectedValue'));
+        return view('admin.projects.create', compact('types', 'technologies'));
     }
 
     /**
@@ -49,8 +47,8 @@ class ProjectsController extends Controller
             $img_path = Storage::put('uploads', $request->file('image_cover'));
             $validated_data['image_cover'] = $img_path;
         }
-
-        Project::create($validated_data);
+        $project = Project::create($validated_data);
+        $project->technologies()->sync($request->input('technologies', []));
 
         return to_route('admin.projects.index')->with('message', "New project it's created!");
     }
@@ -81,7 +79,7 @@ class ProjectsController extends Controller
 
         //dd($technologies);
         $selectedValue = $project->technologies->pluck('id')->toArray();
-        dd($selectedValue);
+        //dd($selectedValue);
 
         return view('admin.projects.edit', compact('project', 'types', 'technologies', 'selectedValue'));
     }
