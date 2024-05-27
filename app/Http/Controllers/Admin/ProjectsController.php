@@ -31,8 +31,10 @@ class ProjectsController extends Controller
         // dd($types);
         $technologies = Technology::all();
         //dd($technologies);
+        $selectedValue = $technologies->pluck('id')->toArray();
+        dd($selectedValue);
 
-        return view('admin.projects.create', compact('types', 'technologies'));
+        return view('admin.projects.create', compact('types', 'technologies', 'selectedValue'));
     }
 
     /**
@@ -74,7 +76,14 @@ class ProjectsController extends Controller
         $types = Type::all();
 
         //dd($types);
-        return view('admin.projects.edit', compact('project', 'types'));
+
+        $technologies = Technology::all();
+
+        //dd($technologies);
+        $selectedValue = $project->technologies->pluck('id')->toArray();
+        dd($selectedValue);
+
+        return view('admin.projects.edit', compact('project', 'types', 'technologies', 'selectedValue'));
     }
 
     /**

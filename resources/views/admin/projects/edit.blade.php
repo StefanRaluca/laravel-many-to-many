@@ -69,6 +69,25 @@
 
             </div>
 
+            <div class="mb-3 d-flex gap-3 flex-wrap">
+                <label for="technologies" class="form-check-label">Technologies:</label>
+                @foreach ($technologies as $technology)
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="technologies[]"
+                            id="technology-{{ $technology->id }}" value="{{ $technology->id }}"
+                            {{ in_array($technology->id, $selectedValue) ? 'checked' : '' }}>
+                        <label class="form-check-label" for="technology-{{ $technology->id }}">
+                            {{ $technology->name }}
+                        </label>
+                    </div>
+                @endforeach
+            </div>
+            @error('technologies')
+                <div class="text-danger py-2">
+                    {{ $message }}
+                </div>
+            @enderror
+
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
                 <textarea class="form-control" name="description" id="description" rows="9">{{ $project->description }}</textarea>
