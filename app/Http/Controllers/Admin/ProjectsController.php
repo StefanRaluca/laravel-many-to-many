@@ -60,8 +60,10 @@ class ProjectsController extends Controller
     {
         $types = Type::all();
         //dd($types);
+        $technologies = Technology::all();
+        //dd($technologies);
 
-        return view('admin.projects.show', compact('project', 'types', 'tecnologies'));
+        return view('admin.projects.show', compact('project', 'types', 'technologies'));
     }
 
     /**
@@ -92,6 +94,7 @@ class ProjectsController extends Controller
             $validated_data['image_cover'] = $img_path;
         }
         $project->update($validated_data);
+        $project->technologies()->sync($request->input('technologies', []));
 
         return to_route('admin.projects.index')->with('message', "Project $project->title updated!");
     }

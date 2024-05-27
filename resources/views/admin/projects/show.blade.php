@@ -19,6 +19,13 @@
                 <div class="metadata">
                     <strong>Type</strong> {{ $project->type ? $project->type->name : 'Uncategorized' }}
                 </div>
+                <p> <strong>Technologies:</strong>
+                    @forelse($project->technologies as $technology)
+                        {{ $technology->name }}
+                    @empty
+                        No technologies associated with this project
+                    @endforelse
+                </p>
                 <p>{{ $project->content }}</p>
                 <p><strong>Description:</strong> {{ $project->description }}</p>
                 <button class="btn btn-primary"><a href="{{ route('admin.projects.index') }}"
