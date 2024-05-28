@@ -111,6 +111,7 @@ class ProjectsController extends Controller
      */
     public function destroy(Project $project)
     {
+        $project->technologies()->detach();
         $project->delete();
 
         if ($project->image_cover) {
