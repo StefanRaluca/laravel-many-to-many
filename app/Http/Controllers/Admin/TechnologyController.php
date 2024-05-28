@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTechnologyRequest;
 use App\Http\Requests\UpdateTechnologyRequest;
 use App\Models\Technology;
+use Illuminate\Support\Str;
 
 class TechnologyController extends Controller
 {
@@ -32,7 +33,14 @@ class TechnologyController extends Controller
      */
     public function store(StoreTechnologyRequest $request)
     {
-        //
+
+        $validated_data = $request->validated();
+        $slug = Str::slug($validated_data['name'], '-');
+        $validated_data['slug'] = $slug;
+        Technology::create($validated_data);
+
+        return to_route('admin.technologies.index')->with('message', "New technologies it's created!");
+
     }
 
     /**
@@ -48,7 +56,7 @@ class TechnologyController extends Controller
      */
     public function edit(Technology $technology)
     {
-        //
+        return view('admin.technologies.index', compact('technology'));
     }
 
     /**
@@ -56,7 +64,12 @@ class TechnologyController extends Controller
      */
     public function update(UpdateTechnologyRequest $request, Technology $technology)
     {
-        //
+        $validated_data = $request->validated();
+        $slug = Str::slug($validated_data['name'], '-');
+        $validated_data['slug'] = $slug;
+        $technology->update($validated_data);
+
+        return to_route('admin.technologies.index')->with('message', " $technology->name updated!");
     }
 
     /**
