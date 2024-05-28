@@ -44,12 +44,15 @@
                                         aria-hidden="true"></i>
                                     Edit
                                 </button>
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                    data-bs-target="#delete-{{ $technology->id }}"><i class="fa fa-trash"
-                                        aria-hidden="true"></i>
-                                    Delete
+                                @include('partials.form-delete-technology')
                                 </button>
                             </td>
+                            <td>
+
+                                {{ $technology->projects->count() }}
+
+                            </td>
+
                         </tr>
                         <div class="modal fade" id="view-{{ $technology->id }}" tabindex="-1" aria-labelledby="name"
                             aria-hidden="true">
@@ -118,7 +121,9 @@
                                 </div>
                             </div>
                         </div>
+
         </div>
         @endforeach
+
     </div>
 @endsection

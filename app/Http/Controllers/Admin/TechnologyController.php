@@ -48,7 +48,10 @@ class TechnologyController extends Controller
      */
     public function show(Technology $technology)
     {
-        //
+
+        $projects = $technology->projects;
+
+        return to_route('admin.technologies.index', compact('technology', 'projects'));
     }
 
     /**
@@ -77,6 +80,8 @@ class TechnologyController extends Controller
      */
     public function destroy(Technology $technology)
     {
-        //
+        $technology->delete();
+
+        return to_route('admin.technologies.index')->with('message', "Technology $technology->name deleted!");
     }
 }
