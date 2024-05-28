@@ -24,6 +24,8 @@
                         <th scope="col">ID</th>
                         <th scope="col">Name</th>
                         <th scope="col">Slug</th>
+
+                        <th scope="col">Projects Number</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
@@ -33,6 +35,10 @@
                             <td>{{ $technology->id }}</td>
                             <td>{{ $technology->name }}</td>
                             <td>{{ $technology->slug }}</td>
+                            <td>
+                                {{ $technology->projects->count() }}
+                            </td>
+
                             <td>
                                 <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
                                     data-bs-target="#view-{{ $technology->id }}"><i class="fa fa-eye"
@@ -46,11 +52,6 @@
                                 </button>
                                 @include('partials.form-delete-technology')
                                 </button>
-                            </td>
-                            <td>
-
-                                {{ $technology->projects->count() }}
-
                             </td>
 
                         </tr>
