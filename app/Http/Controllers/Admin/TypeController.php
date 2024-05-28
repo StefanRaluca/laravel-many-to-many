@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Type;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTypeRequest;
 use App\Http\Requests\UpdateTypeRequest;
-use App\Http\Controllers\Controller;
+use App\Models\Type;
 use Illuminate\Support\Str;
 
 class TypeController extends Controller
@@ -16,6 +16,7 @@ class TypeController extends Controller
     public function index()
     {
         $types = Type::orderByDesc('id')->paginate(5);
+
         return view('admin.types.index', compact('types'));
     }
 
@@ -36,6 +37,7 @@ class TypeController extends Controller
         $slug = Str::slug($validated_data['name'], '-');
         $validated_data['slug'] = $slug;
         Type::create($validated_data);
+
         return to_route('admin.types.index')->with('message', "New type it's created!");
     }
 
@@ -64,6 +66,7 @@ class TypeController extends Controller
         $slug = Str::slug($validated_data['name'], '-');
         $validated_data['slug'] = $slug;
         $type->update($validated_data);
+
         return to_route('admin.types.index')->with('message', "Type $type->name updated!");
     }
 
@@ -73,6 +76,7 @@ class TypeController extends Controller
     public function destroy(Type $type)
     {
         $type->delete();
+
         return to_route('admin.types.index')->with('message', "type $type->name deleted!");
     }
 }
